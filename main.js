@@ -39,7 +39,7 @@ class BaseDades{
 let bd = new BaseDades("db");
 console.log(bd.json.hola);
 
-bd.json.a = 50;
+bd.json.a = Math.round( Math.random() * 20);
 
 bd.save();
 
@@ -52,7 +52,12 @@ app.get("/db",(req, res) => {
 
 app.use( EXPRESS.static( path.join(__dirname + "/frontend") ) );
 
-app.listen(80, "localhost", () => {
-    console.log("CONNECTAT");
+const HOST = "localhost";
+const PORT = 80;
+
+app.listen(PORT, HOST, () => {
+    console.log(`Servidor connectat a http://${HOST}:${PORT}`);
 });
+
+
 
