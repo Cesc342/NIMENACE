@@ -14,8 +14,9 @@ const fs = require("fs")
 class BaseDades{
     constructor(nom) {
         this.nom = nom;
+        this.directory = __dirname + `/${nom}.json`;
         let json_str = "";
-        json_str = fs.readFileSync(__dirname + `/${nom}.json`).toString();
+        json_str = fs.readFileSync(this.directory).toString();
 
         this.json = JSON.parse(json_str);
 
@@ -23,19 +24,24 @@ class BaseDades{
     }
 
     load(){
-        json_str = fs.readFileSync(__dirname + `/${nom}.json`).toString();
+        let json_str = fs.readFileSync( this.directory ).toString();
         this.json = JSON.parse(json_str);
         console.log(`Base de dades ${this.nom} llegit`);
     }
 
     save() {
-        json_str = JSON.stringify(this.json);
-        fs.writeFileSync(__dirname + `/${nom}.json`, json_str);
+        let json_str = JSON.stringify(this.json);
+        fs.writeFileSync(this.directory, json_str);
         console.log(`Base de dades ${this.nom} guardat`);
     }
 }
 
 let bd = new BaseDades("db");
+console.log(bd.json.hola);
+
+bd.json.a = 50;
+
+bd.save();
 
 
 ///////////////////////////////////// SERVIDOR //////////////////////////////////

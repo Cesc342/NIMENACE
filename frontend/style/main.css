@@ -1,6 +1,30 @@
-#enquadre {
-    border: 2px, solid, black;
-    width: 500px;
-    height: 500px;
+div.enquadre {
+    border: 2px solid black;
+    position: relative;
+    left: 30%;
+    width: 400px;
+    height: 200px;
 }
+
+div.cercle {
+    position: relative;
+    border: 2px solid blue;
+    border-radius: 30%;
+    width: 20px;
+    left: 20%;
+    height: 20px;
+    top: 2%;
+}
+
+div.columna {
+    position: absolute;
+    border: 1px inset black;
+    height:100%;
+    width: 20%;
+}
+
+body {
+    text-align: center;
+}
+
 /* Funciona?
