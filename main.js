@@ -70,7 +70,6 @@ function reiniciarMaquina(baseDades){
     for(let i = 0; i < 16; i++) estatInternReiniciat.push(NUM_FITXES);
 
     dades.maquina = [];
-    console.log("=================")
     for(let a = 0; a < 2; a++){
         for(let b = 0; b < 3; b++){
             for(let c = 0; c < 4; c++){
@@ -78,20 +77,16 @@ function reiniciarMaquina(baseDades){
                     
                     let i = (a) | (b << 1) | (c << 3) | (d<<5);
                     dades.maquina[i] = estatInternReiniciat;
-                    console.log(`${a},${b},${c},${d} :: ${i}`);
                 }
             }
         }
     }
-    console.log("=================")
 
     baseDades.json = dades;
     baseDades.json["Partides Guanyades"] = 0;
-    console.log(estatInternReiniciat);
 }
 
 reiniciarMaquina(bd);
-console.log(bd.json.maquina);
 bd.save();
 
 ///////////////////////////////////// SERVIDOR //////////////////////////////////
@@ -109,6 +104,8 @@ app.listen(PORT, HOST, () => {
     console.log(`Servidor connectat a http://${HOST}:${PORT}`);
 });
 
+
+// Fer una pagina d'on reiniciar la maquina, per comunicar-se amb el servidor 
 app.post("/reiniciar", (req,res) => {
     if(req.body.contra == "contrasenya"){
         
