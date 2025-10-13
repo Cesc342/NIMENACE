@@ -55,3 +55,8 @@ async function postJSON_Render(url, json){
 
     return await post.text();
 }
+
+async function render_prova() {
+    let json = await getJSON_Render("db");
+    alert(`Partides Jugades: ${json["Partides Jugades"]} >>> Guanyades: ${json["Partides Guanyades"]} || Perdudes: ${json["Partides Jugades"] - json["Partides Guanyades"]}`);
+}
