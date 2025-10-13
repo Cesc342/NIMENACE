@@ -60,3 +60,12 @@ async function render_prova() {
     let json = await getJSON_Render("db");
     alert(`Partides Jugades: ${json["Partides Jugades"]} >>> Guanyades: ${json["Partides Guanyades"]} || Perdudes: ${json["Partides Jugades"] - json["Partides Guanyades"]}`);
 }
+
+async function render_reiniciar() {
+    let contrasenya = prompt("Entra la contrasenya: ");
+    let txt = await postJSON_Render("reiniciar", {
+        contra: contrasenya
+    })
+
+    alert("Resposta Servidor: " + txt);
+}
