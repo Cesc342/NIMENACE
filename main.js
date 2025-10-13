@@ -87,9 +87,6 @@ function reiniciarMaquina(baseDades){
     baseDades.json["Partides Jugades"] = 0;
 }
 
-reiniciarMaquina(bd);
-bd.save();
-
 ///////////////////////////////////// SERVIDOR //////////////////////////////////
 
 app.get("/db",(req, res) => {
@@ -99,10 +96,10 @@ app.get("/db",(req, res) => {
 app.use( EXPRESS.static( path.join(__dirname + "/frontend") ) );
 app.use( EXPRESS.json() );
 
-const HOST = "localhost";
+const HOST = "???????";
 const PORT = 80;
 
-app.listen(PORT, HOST, () => {
+app.listen(PORT, () => {
     console.log(`Servidor connectat a http://${HOST}:${PORT}`);
 });
 
@@ -139,5 +136,3 @@ app.post("/add_partida", (req, res) => {
 
     res.send("OK");
 })
-
-
