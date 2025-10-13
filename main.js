@@ -84,6 +84,7 @@ function reiniciarMaquina(baseDades){
 
     baseDades.json = dades;
     baseDades.json["Partides Guanyades"] = 0;
+    baseDades.json["Partides Jugades"] = 0;
 }
 
 reiniciarMaquina(bd);
@@ -92,10 +93,11 @@ bd.save();
 ///////////////////////////////////// SERVIDOR //////////////////////////////////
 
 app.get("/db",(req, res) => {
-    res.json(baseDades);
+    res.json(bd.json);
 })
 
 app.use( EXPRESS.static( path.join(__dirname + "/frontend") ) );
+app.use( EXPRESS.json() );
 
 const HOST = "localhost";
 const PORT = 80;
@@ -107,9 +109,35 @@ app.listen(PORT, HOST, () => {
 
 // Fer una pagina d'on reiniciar la maquina, per comunicar-se amb el servidor 
 app.post("/reiniciar", (req,res) => {
+    console.table(req.body);
     if(req.body.contra == "contrasenya"){
-        
+        reiniciarMaquina(bd);
+        bd.save();
+        console.log("Contrasenya Correcta: Maquina Reiniciada");
+        res.send("MAQUINA REINICIADA");
     }else{
-
+        console.log("Contrasenya Incorrecta");
+        res.send("CONTRASENYA INCORRECTA");
     }
 })
+
+app.post("/add_partida", (req, res) => {
+    if(req.body.partidaGuanyada == undefined) {
+        res.send("DADES INCORRECTES");
+        console.log("Dades Inserides Incorrectament:")
+        console.table(req.body);
+        return;
+    }
+
+    if(req.body.partidaGuanyada) {
+        bd.json["Partides Guanyades"]++;
+    }
+    bd.json["Partides Jugades"]++;
+    bd.save();
+
+    console.log(`Partides: ${bd.json["Partides Jugades"]} >> W:${bd.json["Partides Guanyades"]} | L:${bd.json["Partides Jugades"] - bd.json["Partides Guanyades"]} `)
+
+    res.send("OK");
+})
+
+
