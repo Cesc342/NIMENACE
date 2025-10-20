@@ -96,10 +96,10 @@ app.get("/db",(req, res) => {
 app.use( EXPRESS.static( path.join(__dirname + "/frontend") ) );
 app.use( EXPRESS.json() );
 
-const HOST = "???????";
+const HOST = "localhost";
 const PORT = 80;
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
     console.log(`Servidor connectat a http://${HOST}:${PORT}`);
 });
 

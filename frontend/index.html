@@ -6,11 +6,12 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NIMENACE</title>
     <link rel="stylesheet" href="./style/main.css">
+    <script src="./script/util.js"></script>
     <script src="./script/main.js"></script>
 </head>
 <body onload="load()">
     <h1>NIMENACE</h1>
-    <div class="enquadre"> 
+    <div class="enquadre">
         <div class="columna">
             <div class="cercle"></div>
         </div>
@@ -31,17 +32,8 @@
         </div>
     </div>
 
-    <input type="button" value="Partida Guanyada" onclick="postJSON_Render('add_partida',{partidaGuanyada:true})">
-    <input type="button" value="Partida Perduda" onclick="postJSON_Render('add_partida',{partidaGuanyada:false})">
-    <br/>
-    <br/>
-
-    <input type="button" value="Check" onclick="render_prova()">
-
-    <br/>
-    <br/>
-
-    <input type="button" value="Reiniciar" onclick="render_reiniciar()">
+    <input type="button" value="Partida Guanyada" onclick="postJSON('add_partida',{partidaGuanyada:true})">
+    <input type="button" value="Partida Perduda" onclick="postJSON('add_partida',{partidaGuanyada:false})">
 
 </body>
 </html>

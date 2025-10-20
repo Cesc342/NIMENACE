@@ -10,7 +10,7 @@ div.cercle {
     position: relative;
     border: 2px solid blue;
     border-radius: 50%;
-    width: 40%;
+    width: 40px;
     left: 20%;
     height: 40px;
     top: 5%;
