@@ -2,18 +2,16 @@ div.enquadre {
     border: 2px solid black;
     position: relative;
     left: 30%;
-    width: 400px;
-    height: 200px;
 }
 
 div.cercle {
-    position: relative;
-    border: 2px solid blue;
+    position: absolute;
+    border: 2px solid black;
+    background-color: rgb(200,200,200);
     border-radius: 50%;
     width: 40px;
-    left: 20%;
     height: 40px;
-    top: 5%;
+    top: 10%;
 }
 
 div.columna {

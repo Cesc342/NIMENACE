@@ -1,16 +1,30 @@
 let tauler_elements = [];
-let height = 400;
-let width = 400;
+let height = 240; // 240
+let width = 380;  // 380
 
 function load(){
+    let enquadre = document.getElementsByClassName("enquadre")[0]; // Centra l'enquadre
+    enquadre.style.width = `${width}px`;
+    enquadre.style.height = `${height}px`;
+    enquadre.style.left = `${ (window.innerWidth-width)/2 }px`
+
 
     let columnes = document.getElementsByClassName("columna");
 
     for(let i = 0; i < columnes.length; i++){
-        columnes[i].style.left = `${i*25}%`;
+        columnes[i].style.left = `${i*25}%`; // Reperteix Columnes
 
         for(let o = 0; o < columnes[i].children.length; o++){
-            columnes[i].children[o].style.top = `${80 - o*20}%`;
+            let cercle = columnes[i].children[o];
+
+            let radiCercle = columnes[i].children[o].clientWidth;   // Simplifica
+            let d = (height - 4*radiCercle - 8) / 5;                    // Calcula el offset, perque tot quedi equidistant verticalment
+            cercle.style.top = `${(d + radiCercle) * o + d}px`; // Centre tots els cercel en patites distancies
+            
+            cercle.style.left = `${ (columnes[i].clientWidth - radiCercle) / 2 }px` // Centre el cercel horitzontalment
+
+            cercle.addEventListener("click", () => onClick(i, o));
+            
         }
         tauler_elements.push(columnes[i].children);
     }
@@ -18,6 +32,28 @@ function load(){
 
 load();
 
+
+function hoverCercle(columna, fila) {
+    for(let i = fila; i < tauler_elements[columna].length; i++){
+        let cercle_sel = tauler_elements[columna][i];
+        cercle_sel.style.backgroundColor = "rgb(150,150,150)";
+    }
+}
+
+function onClick(columna, fila) {
+    for(let i = tauler_elements[columna].length - 1; i >= fila; i--){   // Elimina de adalt a abaix perquè sino 
+        let cercle_sel = tauler_elements[columna][i];                   // deixa element sense eliminar al tallar tota la array
+        cercle_sel.remove();                                            // deiant aixi element fantasmat i no localitzables
+    }
+}
+
+function resetHover(){
+    for(elements of tauler_elements){
+        for(element of elements){
+            element.style.backgroundColor = "rgb(200,200,200)";
+        }
+    }
+}
 
 
 
