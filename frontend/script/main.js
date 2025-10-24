@@ -24,13 +24,53 @@ function load(){
             cercle.style.left = `${ (columnes[i].clientWidth - radiCercle) / 2 }px` // Centre el cercel horitzontalment
 
             cercle.addEventListener("click", () => onClick(i, o));
-            
+
         }
         tauler_elements.push(columnes[i].children);
     }
 }
 
-load();
+//////////////////////////////////// Joc ////////////////////////////////////
+
+/*
+    ·   a --> 1: 0bx
+    ··  b --> 2: 0bxx               Byte Estat: abbccddd
+    ··· c --> 3: 0bxx               (0 - 255)
+    ····d --> 4: 0bxxx
+
+    ·   1 --> 1,2,3,4 : 0bxx : f(ila)
+    ··  2 --> 1,2,3,4 : =           Byte Decisio (seguent estat): ccff
+    ··· 3 --> 1,2,3,4 : =           (0 - 15)
+    ····4 --> 1,2,3,4 : =
+        0bxx : c(olumna)
+*/
+
+function getCodiEstat() { // abbccddd  Codificador
+    let a = tauler_elements[0].length;
+    let b = tauler_elements[1].length;
+    let c = tauler_elements[2].length;
+    let d = tauler_elements[3].length;
+
+    let codi = (a << 7) | (b << 5) | (c << 3) | d;
+    return codi;
+}
+
+function ferDecisio(decisio){ // ccnn Decodificador i decisio
+    let columna = (decisio & 0b1100) >> 2;
+    let num = decisio & 0b0011;
+
+    if(tauler_elements[columna][num]){
+        tauler_elements[columna][num].click();
+        return true;
+    }else{
+        console.log("NOPE");
+        return false;
+    }
+}
+
+
+
+//////////////////////////////////// Events ////////////////////////////////////
 
 
 function hoverCercle(columna, fila) {
@@ -57,6 +97,7 @@ function resetHover(){
 
 
 
+//////////////////////////////////// Proves ////////////////////////////////////
 
 async function render_prova() {
     let json = await getJSON_Render("db");

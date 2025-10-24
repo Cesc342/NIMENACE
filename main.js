@@ -53,8 +53,8 @@ bd.save();
     ··· c --> 3: 0bxx               (0 - 255)
     ····d --> 4: 0bxxx
 
-    ·   1 --> 1,2,3,4 : 0bxx : n(numero peces tretes)
-    ··  2 --> 1,2,3,4 : =           Byte Decisio (seguent estat): ccnn
+    ·   1 --> 1,2,3,4 : 0bxx : f(ila)
+    ··  2 --> 1,2,3,4 : =           Byte Decisio (seguent estat): ccff
     ··· 3 --> 1,2,3,4 : =           (0 - 15)
     ····4 --> 1,2,3,4 : =
         0bxx : c(olumna)
