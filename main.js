@@ -194,8 +194,7 @@ app.post("/seguent_mov", (req, res) => {
         let n_decisio = Number(req.body.n_decisio);
 
         console.log(`>> Decisio ${n_decisio} neutralitzada d'estat ${estat}`);
-        bd.json.maquina[estat + 0][req.body.n_decisio] = 0; // PERQUE DONA ERRORR AAAAAA
-        console.table(bd.json.maquina);
+        bd.json.maquina[estat][req.body.n_decisio] = 0; // Error solucionat
     }
 
     console.log(`------------ ESTAT: ${estat} ------------`);

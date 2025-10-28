@@ -2,11 +2,17 @@ let tauler_elements = [];
 let height = 240; // 240
 let width = 380;  // 380
 
+let div_torn;
+
 function load(){
     let enquadre = document.getElementsByClassName("enquadre")[0]; // Centra l'enquadre
     enquadre.style.width = `${width}px`;
     enquadre.style.height = `${height}px`;
     enquadre.style.left = `${ (window.innerWidth-width)/2 }px`
+
+    div_torn = document.getElementsByClassName("torn")[0];
+    console.log(enquadre.style.left - div_torn.style.width);
+    div_torn.style.left = `${(window.innerWidth-width)/2  - div_torn.clientWidth}px`;
 
 
     let columnes = document.getElementsByClassName("columna");
@@ -72,11 +78,14 @@ function ferDecisio(decisio){ // ccnn Decodificador i decisio
     let estat = getCodiEstat();
     llista_decisions.push([estat, Number(decisio)])     // Guarda la decisio feta per processament posterior
 
+    block_click = false;
     tauler_elements[columna][num].click();
     return true;                                // Es un moviment valid
 }
 
 async function seguentMoviment(estat, eliminar_decisio = false, n_decisio) {
+    div_torn.style.backgroundColor = "orange";
+
     let res = await postJSON("seguent_mov", {
         estat: estat,
         eliminar_decisio: eliminar_decisio,
@@ -84,7 +93,10 @@ async function seguentMoviment(estat, eliminar_decisio = false, n_decisio) {
     })
 
     let decisio_feta = ferDecisio(res);
-    if(decisio_feta) return;
+    if(decisio_feta) {
+        div_torn.style.backgroundColor = "green";
+        return;
+    }
 
     seguentMoviment(estat, true, res);
 }
@@ -111,7 +123,10 @@ function hoverCercle(columna, fila) {
 }
 
 let tornNimenace = false;
+let block_click = false; // Bloquejar el clic del usuari
 async function onClick(columna, fila) {
+    if(block_click) return;
+
     for(let i = tauler_elements[columna].length - 1; i >= fila; i--){   // Elimina de adalt a abaix perquè sino 
         let cercle_sel = tauler_elements[columna][i];                   // deixa element sense eliminar al tallar tota la array
         cercle_sel.remove();                                            // deiant aixi element fantasmat i no localitzables
@@ -123,9 +138,13 @@ async function onClick(columna, fila) {
         return;
     }
 
-    await await timeOut(500);
     tornNimenace = !tornNimenace;
-    if(tornNimenace) await seguentMoviment(estat);
+    if(tornNimenace) {
+        block_click = true;
+        div_torn.style.backgroundColor = "red";
+        await await timeOut(500);
+        await seguentMoviment(estat);
+    }
 }
 
 function resetHover(){
