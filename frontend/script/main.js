@@ -68,6 +68,27 @@ function ferDecisio(decisio){ // ccnn Decodificador i decisio
     }
 }
 
+async function seguentMoviment(estat, eliminar_decisio = false, n_decisio) {
+    let res = await postJSON("seguent_mov", {
+        estat: estat,
+        eliminar_decisio: eliminar_decisio,
+        n_decisio: n_decisio
+    })
+
+    let decisio_feta = ferDecisio(res);
+    if(decisio_feta) return;
+
+    seguentMoviment(estat, true, res);
+}
+
+async function fiPartida() {
+    console.log(`Guanyador ${tornNimenace ? "Nimenace" : "TU" }`);
+    await postJSON("add_partida", {
+        partidaGuanyada: tornNimenace
+    });
+
+    alert(`Guanyador ${tornNimenace ? "Nimenace" : "TU" }`);
+}
 
 
 //////////////////////////////////// Events ////////////////////////////////////
@@ -80,11 +101,22 @@ function hoverCercle(columna, fila) {
     }
 }
 
-function onClick(columna, fila) {
+let tornNimenace = false;
+async function onClick(columna, fila) {
     for(let i = tauler_elements[columna].length - 1; i >= fila; i--){   // Elimina de adalt a abaix perquè sino 
         let cercle_sel = tauler_elements[columna][i];                   // deixa element sense eliminar al tallar tota la array
         cercle_sel.remove();                                            // deiant aixi element fantasmat i no localitzables
     }
+
+    let estat = getCodiEstat();
+    if(estat == 0){
+        fiPartida();
+        return;
+    }
+
+    await await timeOut(500);
+    tornNimenace = !tornNimenace;
+    if(tornNimenace) await seguentMoviment(estat);
 }
 
 function resetHover(){
@@ -111,4 +143,10 @@ async function render_reiniciar() {
     })
 
     alert("Resposta Servidor: " + txt);
+}
+
+function timeOut(mils){
+    return new Promise((res) => {
+        setTimeout(() => {res()}, mils);
+    })
 }

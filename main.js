@@ -75,7 +75,7 @@ function reiniciarMaquina(baseDades){
             for(let c = 0; c < 4; c++){
                 for(let d = 0; d < 5; d++){
                     
-                    let i = (a) | (b << 1) | (c << 3) | (d<<5);
+                    let i = (a << 7) | (b << 5) | (c << 3) | d;
                     dades.maquina[i] = estatInternReiniciat;
                 }
             }
@@ -85,6 +85,23 @@ function reiniciarMaquina(baseDades){
     baseDades.json = dades;
     baseDades.json["Partides Guanyades"] = 0;
     baseDades.json["Partides Jugades"] = 0;
+}
+
+function seguentMoviment(estat) {
+    let arr_decisions = bd.json.maquina[estat];
+
+    let sum = 0;
+    for(let i = 0; i < arr_decisions.length; i++){      // Quantes fitxes dintre l'estat
+        sum += arr_decisions[i];
+    }
+
+    let n = Math.floor( Math.random() * sum );          // Es tria una fitxa
+    console.log(`De ${sum} fitxes, s'ha elegit la nº ${n}`);
+
+    for(let t = 0; t < arr_decisions.length; t++){      // Es mira la fitxa quin
+        n -= arr_decisions[t];                          // moviment representa
+        if(n < 0) return t;
+    }
 }
 
 ///////////////////////////////////// SERVIDOR //////////////////////////////////
@@ -135,4 +152,20 @@ app.post("/add_partida", (req, res) => {
     console.log(`Partides: ${bd.json["Partides Jugades"]} >> W:${bd.json["Partides Guanyades"]} | L:${bd.json["Partides Jugades"] - bd.json["Partides Guanyades"]} `)
 
     res.send("OK");
+})
+
+app.post("/seguent_mov", (req, res) => {
+    let estat = req.body.estat;
+
+    if(req.body.eliminar_decisio) {
+        console.log(`>> Decisio ${req.body.n_decisio} neutralitzada d'estat ${estat}`);
+        bd.json.maquina[estat][req.body.n_decisio] = 0;
+    }
+
+    console.log(`------------ ESTAT: ${estat} ------------`);
+
+    let decisio = seguentMoviment(estat);
+
+    console.log(`DECISIÓ FETA: ${decisio}`);
+    res.send(decisio);
 })
