@@ -20,9 +20,9 @@ class BaseDades{
 
         this.json = JSON.parse(json_str);
 
-        for(let x in this.json){
+        /*for(let x in this.json){
             console.table(this.json[x]);
-        }
+        }*/
     }
 
     load(){
@@ -76,8 +76,9 @@ function reiniciarMaquina(baseDades){
                 for(let d = 0; d < 5; d++){
                     
                     let i = (a << 7) | (b << 5) | (c << 3) | d;
-                    dades.maquina[i] = estatInternReiniciat;
-                }
+                    dades.maquina[i] = JSON.parse( JSON.stringify(estatInternReiniciat) );  // Això està fet aixi ja que sino 'estatInternReiniciat' es referencia en cada iteracio de la array
+                                                                                            // creant a la practica copia rera copia que al ser editada, totes a l'hora són editades. Fent que sigui
+                }                                                                           // impossible guardar un valor en una sola columna i fila, guardant el valor en tota una columna sencera (indepenent de files com si fos una sola entitat)
             }
         }
     }
@@ -102,6 +103,22 @@ function seguentMoviment(estat) {
         n -= arr_decisions[t];                          // moviment representa
         if(n < 0) return t;
     }
+}
+
+let alpha_win = 2;      // Numero de fitxes afegides al guanyar
+let alpha_lose = -2;    // Numero de fitxes tretes al perdre
+function aprendre(llista_decisions, ha_guanyat) {
+    let alpha = ha_guanyat ? alpha_win: alpha_lose;    // Suma o treu fitxes
+
+    for(let i = 0; i < llista_decisions.length; i++){
+        let estat = llista_decisions[i][0];         // abbccddd
+        let decisio = llista_decisions[i][1];       // ccnn
+        bd.json.maquina[estat][decisio] += alpha;   // Suma/treu fitxes del estat
+        console.log(`ESTAT: ${estat}, DECISIO: ${decisio}`);
+    }
+
+    console.log(`Nimenace ha après de la partida nº${bd.json["Partides Jugades"]} que ha ${ ha_guanyat ? "guanyat": "perdut"}` );
+    bd.save();
 }
 
 ///////////////////////////////////// SERVIDOR //////////////////////////////////
@@ -136,14 +153,21 @@ app.post("/reiniciar", (req,res) => {
 })
 
 app.post("/add_partida", (req, res) => {
-    if(req.body.partidaGuanyada == undefined) {
+    /* body{
+        partida_guanyada: true/false,
+        llista_decisions: [[abbccddd, ccnn], [abbccddd, ccnn], ...]
+    }*/
+
+
+
+    if(req.body.partida_guanyada == undefined || req.body.llista_decisions == undefined) {
         res.send("DADES INCORRECTES");
         console.log("Dades Inserides Incorrectament:")
         console.table(req.body);
         return;
     }
 
-    if(req.body.partidaGuanyada) {
+    if(req.body.partida_guanyada) {
         bd.json["Partides Guanyades"]++;
     }
     bd.json["Partides Jugades"]++;
@@ -151,21 +175,32 @@ app.post("/add_partida", (req, res) => {
 
     console.log(`Partides: ${bd.json["Partides Jugades"]} >> W:${bd.json["Partides Guanyades"]} | L:${bd.json["Partides Jugades"] - bd.json["Partides Guanyades"]} `)
 
+    aprendre(req.body.llista_decisions, req.body.partida_guanyada);
+
     res.send("OK");
 })
 
 app.post("/seguent_mov", (req, res) => {
-    let estat = req.body.estat;
+    /* body: {
+        estat: abbccddd,
+        eliminar_decisio: true/false,
+        n_decisio: ccnn (per eliminar)
+    }*/
+
+    let estat = Number(req.body.estat);
 
     if(req.body.eliminar_decisio) {
-        console.log(`>> Decisio ${req.body.n_decisio} neutralitzada d'estat ${estat}`);
-        bd.json.maquina[estat][req.body.n_decisio] = 0;
+        console.log("ELIMINAR DECISIO");
+        let n_decisio = Number(req.body.n_decisio);
+
+        console.log(`>> Decisio ${n_decisio} neutralitzada d'estat ${estat}`);
+        bd.json.maquina[estat + 0][req.body.n_decisio] = 0; // PERQUE DONA ERRORR AAAAAA
+        console.table(bd.json.maquina);
     }
 
     console.log(`------------ ESTAT: ${estat} ------------`);
 
     let decisio = seguentMoviment(estat);
-
     console.log(`DECISIÓ FETA: ${decisio}`);
     res.send(decisio);
 })

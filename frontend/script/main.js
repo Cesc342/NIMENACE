@@ -45,6 +45,8 @@ function load(){
         0bxx : c(olumna)
 */
 
+let llista_decisions = [];
+
 function getCodiEstat() { // abbccddd  Codificador
     let a = tauler_elements[0].length;
     let b = tauler_elements[1].length;
@@ -59,13 +61,19 @@ function ferDecisio(decisio){ // ccnn Decodificador i decisio
     let columna = (decisio & 0b1100) >> 2;
     let num = decisio & 0b0011;
 
-    if(tauler_elements[columna][num]){
-        tauler_elements[columna][num].click();
-        return true;
-    }else{
-        console.log("NOPE");
+    hoverCercle(columna, num);
+    setTimeout(() => {}, 1000)
+
+    if(tauler_elements[columna][num] == undefined){ // Si no existeix és un moviment invalid
+        console.log("NOPE");                        // Tornant false
         return false;
     }
+
+    let estat = getCodiEstat();
+    llista_decisions.push([estat, Number(decisio)])     // Guarda la decisio feta per processament posterior
+
+    tauler_elements[columna][num].click();
+    return true;                                // Es un moviment valid
 }
 
 async function seguentMoviment(estat, eliminar_decisio = false, n_decisio) {
@@ -84,7 +92,8 @@ async function seguentMoviment(estat, eliminar_decisio = false, n_decisio) {
 async function fiPartida() {
     console.log(`Guanyador ${tornNimenace ? "Nimenace" : "TU" }`);
     await postJSON("add_partida", {
-        partidaGuanyada: tornNimenace
+        partida_guanyada: tornNimenace,
+        llista_decisions: llista_decisions
     });
 
     alert(`Guanyador ${tornNimenace ? "Nimenace" : "TU" }`);
