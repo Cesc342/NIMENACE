@@ -23,9 +23,9 @@ function load(){
         for(let o = 0; o < columnes[i].children.length; o++){
             let cercle = columnes[i].children[o];
 
-            let radiCercle = columnes[i].children[o].clientWidth;   // Simplifica
+            let radiCercle = columnes[i].children[o].clientWidth;       // Simplifica
             let d = (height - 4*radiCercle - 8) / 5;                    // Calcula el offset, perque tot quedi equidistant verticalment
-            cercle.style.top = `${(d + radiCercle) * o + d}px`; // Centre tots els cercel en patites distancies
+            cercle.style.top = `${(d + radiCercle) * o + d}px`;         // Centre tots els cercel en patites distancies
             
             cercle.style.left = `${ (columnes[i].clientWidth - radiCercle) / 2 }px` // Centre el cercel horitzontalment
 
@@ -68,7 +68,6 @@ function ferDecisio(decisio){ // ccnn Decodificador i decisio
     let num = decisio & 0b0011;
 
     hoverCercle(columna, num);
-    setTimeout(() => {}, 1000)
 
     if(tauler_elements[columna][num] == undefined){ // Si no existeix és un moviment invalid
         console.log("NOPE");                        // Tornant false
@@ -142,7 +141,7 @@ async function onClick(columna, fila) {
     if(tornNimenace) {
         block_click = true;
         div_torn.style.backgroundColor = "red";
-        await await timeOut(500);
+        await await timeOut(100);
         await seguentMoviment(estat);
     }
 }

@@ -43,9 +43,9 @@ console.log(bd.json.hola);
 
 bd.json.a = Math.round( Math.random() * 20);
 
-bd.save();
-
 ///////////////////////////////////// PROCESSAMENT JOC //////////////////////////
+/////////////////////////////////////    "NIMENACE"   //////////////////////////
+
 
 /*
     ·   a --> 1: 0bx
@@ -86,6 +86,7 @@ function reiniciarMaquina(baseDades){
     baseDades.json = dades;
     baseDades.json["Partides Guanyades"] = 0;
     baseDades.json["Partides Jugades"] = 0;
+    baseDades.json["Perc Guany_per_Partida"] = [];
 }
 
 function seguentMoviment(estat) {
@@ -105,8 +106,8 @@ function seguentMoviment(estat) {
     }
 }
 
-let alpha_win = 2;      // Numero de fitxes afegides al guanyar
-let alpha_lose = -2;    // Numero de fitxes tretes al perdre
+let alpha_win = 3;      // Numero de fitxes afegides al guanyar
+let alpha_lose = -3;    // Numero de fitxes tretes al perdre
 function aprendre(llista_decisions, ha_guanyat) {
     let alpha = ha_guanyat ? alpha_win: alpha_lose;    // Suma o treu fitxes
 
@@ -114,6 +115,7 @@ function aprendre(llista_decisions, ha_guanyat) {
         let estat = llista_decisions[i][0];         // abbccddd
         let decisio = llista_decisions[i][1];       // ccnn
         bd.json.maquina[estat][decisio] += alpha;   // Suma/treu fitxes del estat
+        if(bd.json.maquina[estat][decisio] < 0) bd.json.maquina[estat][decisio] = 0;
         console.log(`ESTAT: ${estat}, DECISIO: ${decisio}`);
     }
 
@@ -174,6 +176,11 @@ app.post("/add_partida", (req, res) => {
     bd.save();
 
     console.log(`Partides: ${bd.json["Partides Jugades"]} >> W:${bd.json["Partides Guanyades"]} | L:${bd.json["Partides Jugades"] - bd.json["Partides Guanyades"]} `)
+
+    let g_per_p = bd.json["Partides Guanyades"] / bd.json["Partides Jugades"] * 100;
+    console.log(`% Partides Guanyades a Jugades: ${ g_per_p }\%`);
+    
+    bd.json["Perc Guany_per_Partida"].push(g_per_p);
 
     aprendre(req.body.llista_decisions, req.body.partida_guanyada);
 

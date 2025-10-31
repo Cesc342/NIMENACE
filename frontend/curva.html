@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script/util.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="llista" style="height: 400px; border: 1px solid black;">
+
+    </div>
+
+    <script>
+        getJSON("db").then((res) => {
+            let dades = res["Perc Guany_per_Partida"];
+            console.table(dades);
+
+            let llista = document.getElementById("llista");
+            
+            for(let i = 0; i < dades.length; i++) {
+                let div = document.createElement("div");
+                div.style.position = "absolute";
+                div.style.left = (i * 4) + "px";
+                div.style.width = 4 + "px";
+                let height = (dades[i] / 100 * 400);
+                div.style.height = height + "px";
+                div.style.top = (llista.clientHeight - height) + "px";
+                div.style.backgroundColor = "black";
+                llista.appendChild(div);
+            }
+        })
+    </script>
+</body>
+</html>
