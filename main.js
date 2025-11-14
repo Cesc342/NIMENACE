@@ -115,7 +115,7 @@ function aprendre(llista_decisions, ha_guanyat) {
         let estat = llista_decisions[i][0];         // abbccddd
         let decisio = llista_decisions[i][1];       // ccnn
         bd.json.maquina[estat][decisio] += alpha;   // Suma/treu fitxes del estat
-        if(bd.json.maquina[estat][decisio] < 1) bd.json.maquina[estat][decisio] = 0;
+        if(bd.json.maquina[estat][decisio] < 1) bd.json.maquina[estat][decisio] = 1;
         console.log(`ESTAT: ${estat}, DECISIO: ${decisio}`);
     }
 
@@ -134,7 +134,6 @@ app.use( EXPRESS.json() );
 
 const HOST = "localhost";
 const PORT = 80;
-
 app.listen(PORT, () => {
     console.log(`Servidor connectat a http://${HOST}:${PORT}`);
 });
