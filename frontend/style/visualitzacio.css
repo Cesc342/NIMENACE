@@ -1,0 +1,15 @@
+#fila {
+    position: relative;
+    border: 1px solid black;
+}
+
+#estat {
+    position: absolute;
+    border: 1px solid black;
+}
+
+#decisio {
+    position: absolute;
+    align-content: center;
+    font-size: 10px;
+}

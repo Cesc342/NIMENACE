@@ -12,6 +12,10 @@
 <body onload="load()">
 
     <h1>NIMENACE</h1>
+    <p style="width: 40%; left: 30%; position: relative;"> 
+        Nim és un joc de dos persones. Treu fitxes, fins que no en quedi cap. 
+        Guanya qui tregui la última. Bona sort! 
+    </p>
     <div class="torn"></div>
     <div class="enquadre">
         <div class="columna">
@@ -34,8 +38,6 @@
         </div>
     </div>
 
-    <input type="button" value="Partida Guanyada" onclick="postJSON('add_partida',{partidaGuanyada:true})">
-    <input type="button" value="Partida Perduda" onclick="postJSON('add_partida',{partidaGuanyada:false})">
     <br>
     <input type="button" value="REINICIAR" onclick="postJSON('reiniciar', {contra:'contrasenya'})">
     <br>

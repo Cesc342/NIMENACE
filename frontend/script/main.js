@@ -85,7 +85,7 @@ function ferDecisio(decisio){ // ccnn Decodificador i decisio
 async function seguentMoviment(estat, eliminar_decisio = false, n_decisio) {
     div_torn.style.backgroundColor = "orange";
 
-    let res = await postJSON_Render("seguent_mov", {
+    let res = await postJSON("seguent_mov", {
         estat: estat,
         eliminar_decisio: eliminar_decisio,
         n_decisio: n_decisio
@@ -102,7 +102,7 @@ async function seguentMoviment(estat, eliminar_decisio = false, n_decisio) {
 
 async function fiPartida() {
     console.log(`Guanyador ${tornNimenace ? "Nimenace" : "TU" }`);
-    await postJSON_Render("add_partida", {
+    await postJSON("add_partida", {
         partida_guanyada: tornNimenace,
         llista_decisions: llista_decisions
     });
@@ -159,13 +159,13 @@ function resetHover(){
 //////////////////////////////////// Proves ////////////////////////////////////
 
 async function render_prova() {
-    let json = await getJSON_Render("db");
+    let json = await getJSON("db");
     alert(`Partides Jugades: ${json["Partides Jugades"]} >>> Guanyades: ${json["Partides Guanyades"]} || Perdudes: ${json["Partides Jugades"] - json["Partides Guanyades"]}`);
 }
 
 async function render_reiniciar() {
     let contrasenya = prompt("Entra la contrasenya: ");
-    let txt = await postJSON_Render("reiniciar", {
+    let txt = await postJSON("reiniciar", {
         contra: contrasenya
     })
 
