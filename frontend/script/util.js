@@ -1,6 +1,6 @@
 async function getJSON(url) {
-    console.log(`http://${window.location.host}/${url}`);
-    let get = await fetch(`http://${window.location.host}/${url}`, {
+    console.log(`https://${window.location.host}/${url}`);
+    let get = await fetch(`https://${window.location.host}/${url}`, {
         method: "GET"
     });
 
@@ -19,8 +19,8 @@ async function getJSON_Render(url) {
 }
 
 async function postJSON(url, json){
-    console.log(`http://${window.location.host}/${url}`);
-    let post = await fetch(`http://${window.location.host}/${url}`, {
+    console.log(`https://${window.location.host}/${url}`);
+    let post = await fetch(`https://${window.location.host}/${url}`, {
         method: "POST",
         body: JSON.stringify(json),
         headers:{

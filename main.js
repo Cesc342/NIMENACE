@@ -1,14 +1,19 @@
-const EXPRESS = require("express");
-const SOCKETIO = require("socket.io");
-const HTTP = require("http");
-
-const app = EXPRESS();
-const server = HTTP.createServer(app);
-const io = SOCKETIO(server);
-
 const path = require("path")
 const fs = require("fs")
 
+const EXPRESS = require("express");
+const SOCKETIO = require("socket.io");
+const HTTPS = require("node:https");
+
+const options = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.crt')
+};
+
+
+const app = EXPRESS();
+const server = HTTPS.createServer(options, app);
+const io = SOCKETIO(server);
 ///////////////////////////////////// BASE DADES ////////////////////////////////
 
 class BaseDades{
@@ -132,11 +137,14 @@ app.get("/db",(req, res) => {
 app.use( EXPRESS.static( path.join(__dirname + "/frontend") ) );
 app.use( EXPRESS.json() );
 
-const HOST = "localhost";
+const HOST = "192.168.20.81";
 const PORT = 80;
-app.listen(PORT, () => {
+/* app.listen(HOST, PORT, () => {
     console.log(`Servidor connectat a http://${HOST}:${PORT}`);
-});
+}); */
+server.listen(PORT, HOST, () => {
+    console.log(`Servidor connectat a https://${HOST}:${PORT}`);
+})
 
 
 // Fer una pagina d'on reiniciar la maquina, per comunicar-se amb el servidor 
