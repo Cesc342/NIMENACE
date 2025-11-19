@@ -111,7 +111,7 @@ function seguentMoviment(estat) {
     }
 }
 
-let alpha_win = 1;      // Numero de fitxes afegides al guanyar
+let alpha_win = 2;      // Numero de fitxes afegides al guanyar
 let alpha_lose = -1;    // Numero de fitxes tretes al perdre
 function aprendre(llista_decisions, ha_guanyat) {
     let alpha = ha_guanyat ? alpha_win: alpha_lose;    // Suma o treu fitxes
