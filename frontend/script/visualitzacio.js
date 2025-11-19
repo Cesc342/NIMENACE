@@ -61,13 +61,18 @@ function crearDisplayEstat(n_estat, estat){
 
     for(let i = 0; i < estat.length; i++){
         let fitxes = estat[i];
+
+        let c = i & 0b11;
+        let f = (i >> 2) & 0b0011;
         
         let div_decisio = document.createElement("div");
         div_decisio.id = "decisio"
         div_decisio.style.width = WIDTH_DECISIO + "px";
         div_decisio.style.height = HEIGHT_DECISIO + "px";
-        div_decisio.style.left = ( (i%4) * WIDTH_DECISIO ) + "px";
-        div_decisio.style.top = ( (Math.floor(i/4)) * HEIGHT_DECISIO ) + "px";
+        // div_decisio.style.left = ( (i%4) * WIDTH_DECISIO ) + "px";
+        // div_decisio.style.top = ( (Math.floor(i/4)) * HEIGHT_DECISIO ) + "px";
+        div_decisio.style.left = ( (f) * WIDTH_DECISIO ) + "px";
+        div_decisio.style.top = ( (c) * HEIGHT_DECISIO ) + "px";
 
         div_decisio.innerText = fitxes;
         div_decisio.title = n_estat + "";

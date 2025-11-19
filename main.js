@@ -111,8 +111,8 @@ function seguentMoviment(estat) {
     }
 }
 
-let alpha_win = 2;      // Numero de fitxes afegides al guanyar
-let alpha_lose = -2;    // Numero de fitxes tretes al perdre
+let alpha_win = 1;      // Numero de fitxes afegides al guanyar
+let alpha_lose = -1;    // Numero de fitxes tretes al perdre
 function aprendre(llista_decisions, ha_guanyat) {
     let alpha = ha_guanyat ? alpha_win: alpha_lose;    // Suma o treu fitxes
 
@@ -138,7 +138,7 @@ app.use( EXPRESS.static( path.join(__dirname + "/frontend") ) );
 app.use( EXPRESS.json() );
 
 const HOST = "192.168.20.81";
-const PORT = 80;
+const PORT = 443;
 /* app.listen(HOST, PORT, () => {
     console.log(`Servidor connectat a http://${HOST}:${PORT}`);
 }); */

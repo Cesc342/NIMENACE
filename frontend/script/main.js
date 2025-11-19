@@ -34,6 +34,14 @@ function load(){
         }
         tauler_elements.push(columnes[i].children);
     }
+
+    let ran = Math.random();        // RNG qui comensa partida
+    if(ran < 0.9){                 // RNG
+        tornNimenace = !tornNimenace;
+        block_click = true;
+        div_torn.style.backgroundColor = "red";
+        seguentMoviment(getCodiEstat());
+    }
 }
 
 //////////////////////////////////// Joc ////////////////////////////////////
