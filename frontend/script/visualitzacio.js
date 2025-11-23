@@ -14,7 +14,7 @@ function load(){
     enquadre.style.height = HEIGHT + "px";
 
 
-    getJSON("db").then( (res) => processarMaquina(res.maquina, enquadre) );
+    getJSON_Render("db").then( (res) => processarMaquina(res.maquina, enquadre) );
 
     document.body.appendChild(enquadre);
 }
