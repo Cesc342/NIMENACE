@@ -137,7 +137,7 @@ app.get("/db",(req, res) => {
 app.use( EXPRESS.static( path.join(__dirname + "/frontend") ) );
 app.use( EXPRESS.json() );
 
-const HOST = "192.168.20.81";
+const HOST = "localhost";
 const PORT = 80;
 /* app.listen(HOST, PORT, () => {
     console.log(`Servidor connectat a http://${HOST}:${PORT}`);
