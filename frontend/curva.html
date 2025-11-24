@@ -13,7 +13,7 @@
 
     <script>
         let db;
-        getJSON_Render("db").then((res) => {
+        getJSON("db").then((res) => {
             db = res;
             let dades = res["Perc Guany_per_Partida"];
             console.table(dades);

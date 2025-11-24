@@ -5,8 +5,8 @@ const HEIGHT_FILA = HEIGHT / (120 / n_estat_per_fila);  // 120 estats en la maqu
 
 const WIDTH_ESTAT = 100, HEIGHT_ESTAT = 100;
 
-const WIDTH_DECISIO = WIDTH_ESTAT / 4;
-const HEIGHT_DECISIO = HEIGHT_ESTAT / 4;
+const WIDTH_DECISIO = (WIDTH_ESTAT-2) / 4;
+const HEIGHT_DECISIO = (HEIGHT_ESTAT-2) / 4;
 
 function load(){
     let enquadre = document.createElement("div");
@@ -14,7 +14,7 @@ function load(){
     enquadre.style.height = HEIGHT + "px";
 
 
-    getJSON_Render("db").then( (res) => processarMaquina(res.maquina, enquadre) );
+    getJSON("db").then( (res) => processarMaquina(res.maquina, enquadre) );
 
     document.body.appendChild(enquadre);
 }

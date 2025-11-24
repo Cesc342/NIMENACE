@@ -4,7 +4,7 @@
 
 #estat {
     position: absolute;
-    border: 3px solid black;
+    border: 3px solid rgb(30, 30, 30);
 }
 
 #decisio {
@@ -12,4 +12,5 @@
     align-content: center;
     font-size: 10px;
     text-align: center;
+    border: 1px dotted rgb(30, 30, 30);
 }
