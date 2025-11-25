@@ -14,6 +14,8 @@ function load(){
     console.log(enquadre.style.left - div_torn.style.width);
     div_torn.style.left = `${(window.innerWidth-width)/2  - div_torn.clientWidth}px`;
 
+    block_click = true;
+    div_torn.style.backgroundColor = "red";
 
     let columnes = document.getElementsByClassName("columna");
 
@@ -35,13 +37,10 @@ function load(){
         tauler_elements.push(columnes[i].children);
     }
 
-    let ran = Math.random();        // RNG qui comensa partida
-    if(ran < 0.9){                 // RNG
-        tornNimenace = !tornNimenace;
-        block_click = true;
-        div_torn.style.backgroundColor = "red";
+    tornNimenace = !tornNimenace;
+    setTimeout(() => {
         seguentMoviment(getCodiEstat());
-    }
+    }, 500);
 }
 
 //////////////////////////////////// Joc ////////////////////////////////////
